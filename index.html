@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+        }
+        #gameContainer {
+            position: relative;
+            width: 650px;
+            height: 100vh;
+            background-size: cover;
+        }
+        .object {
+            position: absolute;
+            cursor: pointer;
+        }
+        .clickable {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.5);
+            display: none;
+        }
+        .clickable:hover {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer"></div>
+    <script src="script.js"></script>
+</body>
+</html>
