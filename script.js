@@ -36,14 +36,24 @@
     Pour un remède plus durable, concoctez la légendaire Potion d’Aeloria.
     Pour éradiquer le fléau à jamais, seule la mythique Potion Eternis détient le pouvoir absolu.`, image: ''},
     
-        {index: 12, name: `Fiche incomplète trouvée dans le livre `, image: ''},
+        {index: 12, name: `Fiche incomplète trouvée dans le livre`, image: ''},
         {index: 13, name: `Extrait du Journal du Chef du Village`, image: '', description:`Aujourd'hui, j'ai rencontré la grand-mère Elara. Nous avons discuté de nos traditions et des anciens remèdes. Elle a mentionné une potion spéciale, qui pourrait résoudre les plus grands maux. Ses yeux brillaient d'une lueur inquiète, comme si elle savait quelque chose d'une importance capitale.`},
         {index: 14, name: `Indication 'double des clés'`, image: 'images/machines/balance_drawing.png', description:`Un curieux schéma représentant une balance.`, zoom: 'images/machines/balance_drawing.png'},
         {index: 15, name: 'Clés du laboratoire', image: 'images/inventory/potionKey.jpg', description: 'Les clés du laboratoire.'},
         
         {index: 16, name: '"Duaelinguae Epsile" p.27', image: 'images/uniqueCollectables/dialect1.jpg', description: 'Page trouvée dans un livre de langue.', zoom: 'images/uniqueCollectables/dialect1.jpg'},
         {index: 17, name: '"Le Delte illustré" p.18', image: 'images/uniqueCollectables/dialect2.jpg', description: "Page trouvée dans un livre de langue.", zoom: 'images/uniqueCollectables/dialect2.jpg'},
-        {index: 18, name: '"Le dialiecte pas Bête" p.51', image: 'images/uniqueCollectables/dialect3.jpg', description: 'Page trouvée dans un livre de langue.', zoom: 'images/uniqueCollectables/dialect3.jpg'},
+        {index: 18, name: '"Le dialecte pas Bête" p.51', image: 'images/uniqueCollectables/dialect3.jpg', description: 'Page trouvée dans un livre de langue.', zoom: 'images/uniqueCollectables/dialect3.jpg'},
+
+        {index: 19, name:'Note trouvée chez le minéralogiste', image: '', description: `L'émeraude est moins dense que le topaze.
+Le topaze est plus dense que l'ambre.
+L'ambre n'est pas le plus dense.`},
+        {index: 20, name: 'Potion ultime', description: 'Une potion qui pourrait vaincre le fléau.'},
+
+        {index: 21, name: 'Clés de chez le minéralogiste', image: 'images/inventory/potionKey.jpg', description: 'Les clés de chez le minéralogiste.'},
+        {index: 22, name: "Clés de chez l'herboriste", image: 'images/inventory/potionKey.jpg', description: "Les clés de chez l'herboriste."},
+        
+    
     ];
     
 
@@ -251,15 +261,11 @@
             type: 'div',
             action: function() {
                 if(this.key){
-                    console.log('tu as une clé demandée !');
                     if(!inventory.find(invItem => invItem.name === this.key.name)){
-                        console.log("et tu ne l'as pas !");
                         displayMessage(this.message);
                         return;
                     }
-                    console.log("et tu l'as !");
                 }
-                console.log('change de scène !');
                 changeScene(this.targetScene);
             }
         },
@@ -308,7 +314,15 @@
             action: function(){
                 openWritingMachine();
             }
+        },
+        pink_potion: {
+            src: 'images/uniqueCollectables/pinkPotion.png',
+            action: function() {
+                // document.getElementById(this.id).style.display = 'none';
+                addToInventory(this.item);
+            }
         }
+
     };
 
     const scenes = {
@@ -370,17 +384,31 @@
                     style: 'top: 330px; left: 520px; width: 50px; height: 70px;',
                     targetScene: 'house'
                 },
+                // {
+                //     id: 'door_locked1',
+                //     base: 'message',
+                //     style: 'top: 340px; left: 290px; width: 40px; height: 50px;',
+                //     message: 'Porte verrouillée.'
+                // },
+                // {
+                //     id: 'door_locked2',
+                //     base: 'message',
+                //     style: 'top: 340px; left: 390px; width: 40px; height: 50px;',
+                //     message: 'Porte verrouillée.'
+                // },
                 {
-                    id: 'door_locked1',
-                    base: 'message',
-                    style: 'top: 340px; left: 290px; width: 40px; height: 50px;',
-                    message: 'Porte verrouillée.'
+                    id: 'door-mineralogist',
+                    base: 'door',
+                    style: '',
+                    message: "Porte de chez le minéralogiste verrouillée.",
+                    key: items[21]
                 },
                 {
-                    id: 'door_locked2',
-                    base: 'message',
-                    style: 'top: 340px; left: 390px; width: 40px; height: 50px;',
-                    message: 'Porte verrouillée.'
+                    id: 'door-herborist',
+                    base: 'door',
+                    style: '',
+                    message: "Porte de chez l'herboriste verrouillée.",
+                    key: items[22]
                 },
                 {
                     id: 'door_potion',
@@ -432,7 +460,15 @@
         },
         potion: {
             background: 'images/backgrounds/potionRoom.jpg',
-            objects: []  
+            objects: [
+                {
+                    id: 'pink-potion',
+                    base: 'pink_potion',
+                    // style: 'top: 420px; left: 50px; width: 130px; height: 95px;',
+                    style: 'top: 369px; left: 86px;',
+                    item: items[20]
+                },
+            ]  
         },
         kitchen: {
             background: 'images/backgrounds/kitchen.jpg',
@@ -457,7 +493,44 @@
         },
         cave: {
             background: 'images/backgrounds/cave.jpg',
-            objects: []
+            objects: [
+                {
+                    id: 'green-stone-1',
+                    base: 'collectable',
+                    style: 'top: 370px; left: 40px; width: 60px; height: 50px;',
+                    item: items[4]
+                },
+                {
+                    id: 'green-stone-2',
+                    base: 'collectable',
+                    style: 'top: 490px; left: 140px; width: 80px; height: 60px;',
+                    item: items[4]
+                },
+                {
+                    id: 'orange-stone-1',
+                    base: 'collectable',
+                    style: 'top: 455px; left: 315px; width: 52px; height: 40px;',
+                    item: items[3]
+                },
+                {
+                    id: 'orange-stone-2',
+                    base: 'collectable',
+                    style: 'top: 480px; left: 400px; width: 60px; height: 60px;',
+                    item: items[3]
+                },
+                {
+                    id: 'blue-stone-1',
+                    base: 'collectable',
+                    style: 'top: 535px; left: 35px; width: 65px; height: 55px;',
+                    item: items[5]
+                },
+                {
+                    id: 'blue-stone-2',
+                    base: 'collectable',
+                    style: 'top: 400px; left: 425px; width: 100px; height: 65px;',
+                    item: items[5]
+                },
+            ]
         },
         library: {
             background: 'images/backgrounds/library.jpg',
@@ -695,4 +768,6 @@ function displayMessage(message) {
     // changeScene('kitchen');
     // changeScene('house');
     // changeScene('chief');
+    // changeScene('cave');
+    // changeScene('potion');
 

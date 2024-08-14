@@ -32,8 +32,8 @@ body {
     width: 50px;
     height: 50px;
     background-color: rgba(255, 255, 255, 1);
-    opacity:0;
-    /* opacity:0.3; */
+    /* opacity:0; */
+    opacity:0.3;
     cursor: pointer;
     /* display: none; */
     border-radius: 10px;
@@ -177,7 +177,7 @@ body {
     border-radius: 5px;
     font-size: 14px;
     opacity: 0;
-    animation: fadeInOut 2s forwards;
+    animation: fadeInOut 4s forwards;
     z-index: 40;
 }
 
@@ -185,7 +185,7 @@ body {
     0%, 100% {
         opacity: 0;
     }
-    50% {
+    20% {
         opacity: 1;
     }
 }
