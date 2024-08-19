@@ -47,24 +47,25 @@
         <h3>Machine à traduire</h3>
         <select name="writing-machine-select" id="writing-machine-select">
             <option value="">--Texte à traduire--</option>
-            <option value="fountain">Inscription sur la fontaine du village</option>
+            <!-- <option value="fountain">Inscription sur la fontaine du village</option> -->
         </select>
         <img src="images/machines/writing_machine_algo.jpg" alt="">
         <div class="text">
             <p>Lire texte</p>
             <!-- <p>Phrase=1</p> -->
-            <p>LigneIndex % 3 = 0</p>
+            <p class="condition">PhraseIndex % 3 = 0</p>
             <p>Ecrire lettres + 5</p>
             <!-- <p>Phrase=2</p> -->
-            <p>LigneIndex % 3 = 1</p>
-            <p>Ecrire lettres - <input id="writing-machine-input-1" type="number" min=0 max=10 placeholder=0>
+            <p class="condition">PhraseIndex % 3 = 1</p>
+            <!-- TODO : + -->
+            <p>Ecrire lettres + <input id="writing-machine-input-1" type="number" min=0 max=10 placeholder=0>
             </p>
             <!-- <p>Phrase=3</p> -->
-            <p>LigneIndex % 3 = 2</p>
+            <p class="condition">PhraseIndex % 3 = 2</p>
             <p>Ecrire lettres + <input id="writing-machine-input-2" type="number" min=0 max=10 placeholder=0>
             </p>
         </div>
-        <p class="error-message">Veuillez choisir un texte à traduire.</p>
+        <p class="error-message"></p>
         <button class="submit-btn" onclick="handleSubmitWritingMachine()">Traduire</button>
     </div>
     <div id="machine-container">
@@ -75,6 +76,169 @@
             <div class="pan" id="pan-2" onclick="throwHandItem(2, event)">
                 <div class="weight-display" id="weight-2">0</div>
             </div>
+        </div>
+        <div id="calendar-machine">
+            <div class="close-btn">X</div>
+            <h3>Minutieux calendrier minutaire prévisionnel des températures lunaires du lunaedies 4256754</h3>
+            <div class="hints">
+                <p class="question">temp[n] == <strong>...?</strong></p>
+                <p>1. temp[n] > -6</p>
+                <p>
+                    2. temp[n] < -3
+                </p>
+                <p>
+                    3. temp[n+1] = temp[n]
+                </p>
+                <p>
+                    4. temp[n-3] = temp[n] +2
+                </p>
+            </div>
+            
+            <div class="tables">
+                <div id="style-btns">
+                    <button class="style-btn active" data-color="black"></button>
+                    <button class="style-btn" data-color="red"></button>
+                    <button class="style-btn" data-color="orange"></button>
+                    <button class="style-btn" data-color="blue"></button>
+                    <button class="style-btn" data-color="green"></button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>0'</th>
+                            <th>1'</th>
+                            <th>2'</th>
+                            <th>3'</th>
+                            <th>4'</th>
+                            <th>5'</th>
+                            <th>6'</th>
+                            <th>7'</th>
+                            <th>8'</th>
+                            <th>9'</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>-4°C</td>
+                            <td>-5°C</td>
+                            <td>-5°C</td>
+                            <td>-6°C</td>
+                            <td>-5°C</td>
+                            <td>-4°C</td>
+                            <td>-5°C</td>
+                            <td>-5°C</td>
+                            <td>-5°C</td>
+                            <td>-4°C</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>10'</th>
+                            <th>11'</th>
+                            <th>12'</th>
+                            <th>13'</th>
+                            <th>14'</th>
+                            <th>15'</th>
+                            <th>16'</th>
+                            <th>17'</th>
+                            <th>18'</th>
+                            <th>19'</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>-3°C</td>
+                            <td>-5°C</td>
+                            <td>-5°C</td>
+                            <td>-5°C</td>
+                            <td>-6°C</td>
+                            <td>-5°C</td>
+                            <td>-5°C</td>
+                            <td>-7°C</td>
+                            <td>-6°C</td>
+                            <td>-4°C</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>20'</th>
+                            <th>21'</th>
+                            <th>22'</th>
+                            <th>23'</th>
+                            <th>24'</th>
+                            <th>25'</th>
+                            <th>26'</th>
+                            <th>27'</th>
+                            <th>28'</th>
+                            <th>29'</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>-5°C</td>
+                            <td>-5°C</td>
+                            <td>-3°C</td>
+                            <td>-3°C</td>
+                            <td>-2°C</td>
+                            <td>-3°C</td>
+                            <td>-4°C</td>
+                            <td>-4°C</td>
+                            <td>-5°C</td>
+                            <td>-5°C</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="forest-machine">
+            <form action="time">
+                <select name="hour" id="forest-hour"></select>
+                <select name="minute" id="forest-minute"></select>
+            </form>
+        </div>
+        <div id="herborist-machine" class="chest">
+            <div class="close-btn">X</div>
+            <img class="chest-img" src="images/chests/herborist_chest/herborist_chest.png">        
+            <div class="herb-btns">
+                <div class="herb-btn" id="herb-btn-1" data-index="0">
+                    <img src="images/chests/herborist_chest/chest_btn1_herb1.png">
+                    <img src="images/chests/herborist_chest/chest_btn1_herb2.png">
+                    <img src="images/chests/herborist_chest/chest_btn1_herb3.png">
+                </div>
+                <div class="herb-btn" id="herb-btn-2" data-index="1">
+                    <img src="images/chests/herborist_chest/chest_btn2_herb1.png">
+                    <img src="images/chests/herborist_chest/chest_btn2_herb2.png">
+                    <img src="images/chests/herborist_chest/chest_btn2_herb3.png">
+                </div>
+                <div class="herb-btn" id="herb-btn-3" data-index="2">
+                    <img src="images/chests/herborist_chest/chest_btn3_herb1.png">
+                    <img src="images/chests/herborist_chest/chest_btn3_herb2.png">
+                    <img src="images/chests/herborist_chest/chest_btn3_herb3.png">
+                </div>
+            </div>
+        </div>
+        <div id="crystal-machine">
+            <div class="close-btn">X</div>
+            <img id="crystal-drop" class="chest-img" src="images/chests/crystal_chest/crystal_chest.png">
+            <div class="crystal-images">
+                <img src="images/chests/crystal_chest/crystal_chest_blue.png">
+                <img src="images/chests/crystal_chest/crystal_chest_green.png">
+                <img src="images/chests/crystal_chest/crystal_chest_orange.png">
+            </div>
+        </div>
+        <div id="potion-machine">
+            <div class="close-btn">X</div>
+            <h3>Recette</h3>
+            <ul id="ingredients">
+                <li class="ingredient"><span class="ingredientName">Ingrédient 1</span> (<span class="weight">0</span>g)</li>
+                <li class="ingredient"><span class="ingredientName">Ingrédient 2</span> (<span class="weight">0</span>g)</li>
+                <li class="ingredient"><span class="ingredientName">Ingrédient 3</span> (<span class="weight">0</span>g)</li>
+                <li class="ingredient"><span class="ingredientName">Ingrédient 4</span> (<span class="weight">0</span>g)</li>            </ul>
+            <button id="mix-btn">Mélanger</button>
         </div>
     </div>
     

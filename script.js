@@ -10,31 +10,52 @@
     const mapContainer = document.getElementById('map-container');
     const hotspots = document.querySelectorAll('.hotspot');
 
+    // Machines
+    const weighingMachine = document.getElementById('weighing-machine');
+    const writingMachine = document.getElementById('writing-machine');
+    const calendarMachine = document.getElementById('calendar-machine');
+    const forestMachine = document.getElementById('forest-machine');
+    const herboristMachine = document.getElementById('herborist-machine');
+    const crystalMachine = document.getElementById('crystal-machine');
+    const potionMachine = document.getElementById('potion-machine');
+    let isPotionMachineOpen = false;
+    let cauldronElem = null;
+
     let draggedItem = null;
     let selectedItemInHand = null;
 
+    let hasFlowers = false;
+    let hasCrystal = false;
     // ITEMS (database)
     const items = [
         {index: 0, name: 'Fleur rose', description: "Une fleur rouge.", image: 'images/inventory/item_flower_pink.jpg', weight: 1},
         {index: 1, name: 'Fleur bleue', description: "Une fleur bleue.", image: 'images/inventory/item_flower_blue.jpg', weight: 1},
         {index: 2, name: 'Fleur orange', description: "Une fleur verte.", image: 'images/inventory/item_flower_orange.jpg', weight: 1},
         
-        {index: 3, name: 'Pierre orange', description: "Une pierre orange.", image: 'images/inventory/item_rock_orange.jpg'},
-        {index: 4, name: 'Pierre verte', description: "Une pierre verte.", image: 'images/inventory/item_rock_green.jpg'},
-        {index: 5, name: 'Pierre bleue', description: "Une pierre bleue.", image: 'images/inventory/item_rock_blue.jpg'},
+        {index: 3, name: 'Pierre orange', description: "Une pierre orange.", image: 'images/inventory/item_rock_orange.jpg', weight: 1},
+        {index: 4, name: 'Pierre verte', description: "Une pierre verte.", image: 'images/inventory/item_rock_green.jpg', weight: 1},
+        {index: 5, name: 'Pierre bleue', description: "Une pierre bleue.", image: 'images/inventory/item_rock_blue.jpg', weight: 1},
         
         {index: 6, name: 'Grand champignon', description: "Un grand champignon.", image: 'images/inventory/big_mushroom.jpg', weight: 3},
         {index: 7, name: 'Champignon moyen', description: "Un champignon de taille moyenne.", image: 'images/inventory/medium_mushroom.jpg', weight: 2},
         {index: 8, name: 'Petit champignon', description: "Un petit champignon.", image: 'images/inventory/small_mushroom.jpg', weight: 1},
         
-        {index: 9, name: 'Plume de phénix', description: "Une plume de phénix.", image: 'images/inventory/item_feather.jpg'},
+        {index: 9, name: 'Plume de phénix', description: "Une plume de phénix.", image: 'images/inventory/item_feather.jpg', weight: 1},
     
-        {index: 10, name: 'Message incompréhensible trouvé sur la fontaine', description: `Utzw fufnxjw yjrutwfjwjrjs qf rfqjiynsnyts, hmjwfmji q'frsnjy Qzrnsf.
-            Lkqn qj naiaza lhoq xqnwhya, ykjykyapv hw hcaajzwena Lkpekj z’Wahknew.
-            Rqwt ftcfkswgt ng hngcw c lcocek, ugwng nc oavjkswg Rqvkqp Gvtrkug ffgvkgpv ng rqxqwqv cdtqnw.`, image: ''},
-        {index: 11, name: 'Message trouvé sur la fontaine déchiffré', description: `Pour apaiser temporairement la malédiction, cherchez l'amanite Lumina.
-    Pour un remède plus durable, concoctez la légendaire Potion d’Aeloria.
-    Pour éradiquer le fléau à jamais, seule la mythique Potion Eternis détient le pouvoir absolu.`, image: ''},
+        {index: 10, name: 'Message incompréhensible trouvé sur la fontaine', description:
+            `Utzw afsnjw q'trfsj.
+            Yri ptqyi h'smiweu hi Jiyw.
+            Wpg hnqxv fk Nwpfg.
+            Zsj kytfrj fg Atwqft.
+            1.325uqpp h'Iey ixivmppi.`, 
+            image: '', value: 'fountain'},
+        {index: 11, name: 'Message trouvé sur la fontaine déchiffré', description: `
+            Pour vaincre l'ombre.
+            Une plume d'oiseau de Feu.
+            Une fleur de Lune.
+            Une amanite de Vornars.
+            1.325qmm de Ténèbres de cristal.`, 
+        image: ''},
     
         {index: 12, name: `Fiche incomplète trouvée dans le livre`, image: ''},
         {index: 13, name: `Extrait du Journal du Chef du Village`, image: '', description:`Aujourd'hui, j'ai rencontré la grand-mère Elara. Nous avons discuté de nos traditions et des anciens remèdes. Elle a mentionné une potion spéciale, qui pourrait résoudre les plus grands maux. Ses yeux brillaient d'une lueur inquiète, comme si elle savait quelque chose d'une importance capitale.`},
@@ -53,6 +74,16 @@ L'ambre n'est pas le plus dense.`},
         {index: 21, name: 'Clés de chez le minéralogiste', image: 'images/inventory/potionKey.jpg', description: 'Les clés de chez le minéralogiste.'},
         {index: 22, name: "Clés de chez l'herboriste", image: 'images/inventory/potionKey.jpg', description: "Les clés de chez l'herboriste."},
         
+        {index: 23, name: 'Fleur lumineuse', description: "Une fleur étincelante.", image: 'images/inventory/item_luminous_flower.jpg', weight: 1},
+
+        {index: 24, name: 'Cristal orange', description: "Un cristal orange.", image: 'images/inventory/item_crystal_orange.jpg', weight: 1},
+        {index: 25, name: 'Cristal vert', description: "Un cristal vert.", image: 'images/inventory/item_crystal_green.jpg', weight: 1},
+        {index: 26, name: 'Cristal bleu', description: "Un cristal bleu.", image: 'images/inventory/item_crystal_blue.jpg', weight: 1},
+        
+        {index: 27, name: '"Plantes et Magie", p.534', image: 'images/uniqueCollectables/herb_hint.jpg', description: `L'oeuvre d'une vie de l'herboriste Marg Erite trouvée dans la bibliothèque du chef du village.`, zoom: 'images/uniqueCollectables/herb_hint.jpg'},
+        
+        {index: 28, name: '"Eléments", p.57', image: 'images/uniqueCollectables/elements.jpg', description: `Livre du minéralogiste H. Ogène, chapitre sur la classification des éléments magiques.`, zoom: 'images/uniqueCollectables/elements.jpg'},
+        {index: 29, name: 'Calculs griffonnés', image: 'images/uniqueCollectables/formulas.jpg', description: `Des formules écrites par Hydre, sur le calcul de la Quantité de Matière Magique (en qmm) et la Charge Magique Atomique (en UM)`, zoom: 'images/uniqueCollectables/formulas.jpg'},
     
     ];
     
@@ -63,19 +94,24 @@ L'ambre n'est pas le plus dense.`},
             name: 'Fleur rose',
             image: 'images/inventory/item_flower_pink.jpg',
             description: 'Une fleur rose.',
-            count: 1,
+            count: 5,
             weight: 1
         },
         {
             name: 'Fleur orange',
             image: 'images/inventory/item_flower_orange.jpg',
             description: 'Une fleur orange.',
-            count: 1,
+            count: 5,
             weight: 1
         },
-        {index: 15, name: 'Clés du laboratoire', image: 'images/inventory/potionKey.jpg', description: 'Les clés du laboratoire.',
-            count: 1
-        },
+        {index: 15, name: 'Clés du laboratoire', image: 'images/inventory/potionKey.jpg', description: 'Les clés du laboratoire.', weight : 1, count: 1},
+        {index: 21, name: 'Clés de chez le minéralogiste', image: 'images/inventory/potionKey.jpg', description: 'Les clés de chez le minéralogiste.', count: 1},
+        {index: 22, name: "Clés de chez l'herboriste", image: 'images/inventory/potionKey.jpg', description: "Les clés de chez l'herboriste.", count: 1},
+        {index: 3, name: 'Pierre orange', description: "Une pierre orange.", image: 'images/inventory/item_rock_orange.jpg', weight : 1, count: 1},
+        {index: 4, name: 'Pierre verte', description: "Une pierre verte.", image: 'images/inventory/item_rock_green.jpg', weight : 1, count: 1},
+        {index: 5, name: 'Pierre bleue', description: "Une pierre bleue.", image: 'images/inventory/item_rock_blue.jpg', weight : 1, count: 1},
+        {index: 20, name: 'Potion ultime', description: 'Une potion qui pourrait vaincre le fléau.', count: 1},
+
 
     ];
 
@@ -180,20 +216,25 @@ L'ambre n'est pas le plus dense.`},
             });
     
             // Retirer un seul item de la main
-            const index = hand.indexOf(selectedItemInHand);
-            if (index !== -1) {
-                hand[index].count -= 1;
-                if (hand[index].count <= 0) {
-                    hand.splice(index, 1); // Retirer l'item de la main s'il n'en reste plus
-                    setSeletectedItemInHandToNull();
-                }
-                updateHand();
-            }
+            removeFromInventory(selectedItemInHand);
     
             // Vérifier la condition après la mise à jour du poids
             checkBalanceCondition();
         }
     }
+
+    function removeFromInventory(item) {
+        const index = hand.indexOf(item);
+        if (index !== -1) {
+            hand[index].count -= 1;
+            if (hand[index].count <= 0) {
+                hand.splice(index, 1); // Retirer l'item de l'inventaire s'il n'en reste plus
+                setSeletectedItemInHandToNull();
+            }
+            updateHand(); // Mettre à jour l'inventaire dans l'interface utilisateur
+        }
+    }
+    
     
     function checkBalanceCondition() {
         const weight1 = parseInt(document.getElementById('weight-1').textContent) || 0;
@@ -239,6 +280,31 @@ L'ambre n'est pas le plus dense.`},
     });
 
     const baseObjects = {
+        enemy: {
+            src: 'images/enemies/enemy.png',
+            action: function() {
+                console.log("hp : " + this.hp)
+                if(selectedItemInHand){
+                    switch(selectedItemInHand.name) {
+                        case 'Grand champignon':
+                            this.hp -= 3;
+                            break;
+                        case 'Champignon moyen':
+                            this.hp -= 2;
+                            break;
+                        case 'Petit champignon':
+                            this.hp -= 1;
+                            break;
+                        default:
+                            return;
+                    }
+                }
+                removeFromInventory(selectedItemInHand);
+                if(this.hp <= 0){
+                    document.getElementById(this.id).style.display = 'none';
+                }
+            }
+        },
         mushroom: {
             src: 'mushroom.webp',
             action: function() {
@@ -280,10 +346,7 @@ L'ambre n'est pas le plus dense.`},
         collectable: {
             type: 'div',
             action: function() {
-                // alert(this.item.name);
-                // document.getElementById(this.id).style.display = 'none';
                 addToInventory(this.item);
-                console.log("message : " + this.message);
             }
         },
         message: {
@@ -295,9 +358,6 @@ L'ambre n'est pas le plus dense.`},
         },
         uniqueCollectable: {
             type: 'div',
-            // action: function(){
-                
-            // }
             action: function() {
                 if(!this.isCollected) {
                     addToInventory(this.item);
@@ -318,12 +378,71 @@ L'ambre n'est pas le plus dense.`},
         pink_potion: {
             src: 'images/uniqueCollectables/pinkPotion.png',
             action: function() {
-                // document.getElementById(this.id).style.display = 'none';
+                document.getElementById(this.id).style.display = 'none';
                 addToInventory(this.item);
             }
+        },
+        calendar: {
+            type: 'div',
+            action: function(){
+                calendarMachine.style.display = 'flex';
+            }
+        },
+        herborist_chest: {
+            type: 'div',
+            action: function() {
+                herboristMachine.style.display = 'flex'; 
+            }
+        },
+        crystal_chest: {
+            type: 'div',
+            action: function() {
+                crystalMachine.style.display = 'flex'; 
+            }
+        },
+        cauldron: {
+            type: 'div',
+            action: function() {
+                if(isPotionMachineOpen) {
+                    addIngredientToPotion(selectedItemInHand);
+                }
+                potionMachine.style.display = 'flex';
+                isPotionMachineOpen = true;
+                if(cauldronElem){
+                    cauldronElem.style.cursor = 'cell';
+                }
+                
+            }
+        },
+        fountain: {
+            type: 'div',
+            action: function() {
+                if(!this.isClicked){
+                    displayMessage(this.message)
+                    addToInventory(items[10]);
+                    addOptionToWritingMachineSelect(items[10]);
+                    this.isClicked = true;
+                    document.getElementById('fountain').style.cursor = 'cell';
+                    return;
+                } 
+                
+                if(selectedItemInHand) {
+                    addToFountain(selectedItemInHand)
+                }
+            }
         }
-
     };
+
+    function addToFountain(item) {
+        if(item.name == 'Potion ultime') {
+            displayMessage(`Vous versez la potion dans la fontaine, qui s'illumine. Les ombres s'affaissent, et disparaissent.`)
+        } else {
+            displayMessage(`Rien ne se passe.`)
+        }
+        removeFromInventory(item);
+    }
+
+
 
     const scenes = {
         village: {
@@ -367,16 +486,10 @@ L'ambre n'est pas le plus dense.`},
                 },
                 {
                     id: 'fountain',
-                    base: 'message',
+                    base: 'fountain',
                     style: 'top: 390px; left: 310px; width: 100px; height: 50px;',
-                    message: 'Une fontaine vide.'
-                },
-                {
-                    id: 'water',
-                    base: 'uniqueCollectable',
-                    style: 'top: 430px; left: 200px; width: 150px; height: 20px;',
-                    item: items[10],
-                    message: "Un bassin d'eau sur lequel il est écrit quelque chose..."
+                    message: 'Une fontaine vide sur laquelle il est écrit quelque chose...',
+                    isClicked: false
                 },
                 {
                     id: 'door_house',
@@ -384,31 +497,21 @@ L'ambre n'est pas le plus dense.`},
                     style: 'top: 330px; left: 520px; width: 50px; height: 70px;',
                     targetScene: 'house'
                 },
-                // {
-                //     id: 'door_locked1',
-                //     base: 'message',
-                //     style: 'top: 340px; left: 290px; width: 40px; height: 50px;',
-                //     message: 'Porte verrouillée.'
-                // },
-                // {
-                //     id: 'door_locked2',
-                //     base: 'message',
-                //     style: 'top: 340px; left: 390px; width: 40px; height: 50px;',
-                //     message: 'Porte verrouillée.'
-                // },
                 {
                     id: 'door-mineralogist',
                     base: 'door',
-                    style: '',
+                    style: 'top:330px; left:385px; width: 40px; height: 60px;',
                     message: "Porte de chez le minéralogiste verrouillée.",
-                    key: items[21]
+                    key: items[21],
+                    targetScene: 'mineralogist'
                 },
                 {
                     id: 'door-herborist',
                     base: 'door',
-                    style: '',
+                    style: 'top:330px; left:295px; width: 40px; height: 60px;',
                     message: "Porte de chez l'herboriste verrouillée.",
-                    key: items[22]
+                    key: items[22],
+                    targetScene: 'herborist'
                 },
                 {
                     id: 'door_potion',
@@ -431,6 +534,18 @@ L'ambre n'est pas le plus dense.`},
                     style: 'top: 130px; left: 130px; width: 90px; height: 40px;',
                     targetScene: 'library'
                 },
+                {
+                    id: 'enemy-1',
+                    base: 'enemy',
+                    style: 'right: 25px; top: 405px; cursor: cell;',
+                    hp: 3
+                },
+                {
+                    id: 'enemy-2',
+                    base: 'enemy',
+                    style: 'left: 230px; top: 390px; width: 50px; cursor: cell;',
+                    hp: 2
+                }
             ]
         },
         house: {
@@ -464,10 +579,20 @@ L'ambre n'est pas le plus dense.`},
                 {
                     id: 'pink-potion',
                     base: 'pink_potion',
-                    // style: 'top: 420px; left: 50px; width: 130px; height: 95px;',
-                    style: 'top: 369px; left: 86px;',
+                    style: 'top: 369px; left: 86px; display: none;',
                     item: items[20]
                 },
+                {
+                    id: 'phoenix',
+                    base: 'collectable',
+                    style: 'top: 110px; left: 10px; width: 100px; height: 150px;',
+                    item: items[9]
+                },
+                {
+                    id: 'cauldron',
+                    base: 'cauldron',
+                    style: 'top: 160px; left: 200px; width: 230px; height: 250px;'
+                }
             ]  
         },
         kitchen: {
@@ -586,23 +711,223 @@ L'ambre n'est pas le plus dense.`},
 
             ]
         },
-        chief: {
-            background: 'images/backgrounds/house_chief.jpg',
+        herborist: {
+            background: 'images/backgrounds/herborist.jpg',
             objects: [
                 {
                     id: 'left_arrow',
                     base: 'arrow_door',
                     style: "width: 40px; height: 40px; transform:rotateY(180deg);top:3px; left: 3px;",
                     targetScene: 'village'
+                },
+                {
+                    id: 'calendar',
+                    base: 'calendar',
+                    style: "width:160px; height:50px;top:400px; left: -35px; transform:rotateZ(-25deg);"
+                },
+                {
+                    id: 'flower-book-1',
+                    base: 'message',
+                    style: "width: 100px; height: 130px; top: 300px; left: 320px;",
+                    message: `Jour 4126
+
+Les Fleurs de Lune :
+
+L'Astre-fleur et la Lune-d'ombre ne brillent qu'à l'écart des regards. 
+Durée de l’éclat après un regard : 1 minute.
+
+La fleur de la potion, plus délicate encore, brille peut-être en secret.`
+                },
+                {
+                    id: 'flower-book-2',
+                    base: 'message',
+                    style: "width: 150px; height: 130px; top: 80px; left: 340px;",
+                    message: `Jour 4134
+
+Les Températures optimales
+
+Il semble que certaines plantes possèdent des propriétés si subtiles qu'elles ne se manifestent que dans des conditions rigoureusement précises. La Sélénite pourpre, par exemple, ne révèle ses vertus curatives qu'à une température exacte de 17 degrés.
+
+J’ai enfin fini Meteor, un bijou de technologie qui prédit les températures à la minute près. D’après mes calculs, une plante telle que la Fleur-Lumineuse peut apparaître entre 2h et 2h30, là où les températures sont les plus froides dans la Forêt hantée. 
+                    `
+                },
+                {
+                    id: 'key-mineralogist',
+                    base: 'uniqueCollectable',
+                    style: "width: 40px; height: 100px; transform:rotateZ(50deg);top:390px; left: 120px;",
+                    isCollected: false,
+                    item : items[21]
                 }
+            ]
+        },
+        mineralogist: {
+            background: 'images/backgrounds/mineralogist.jpg',
+            objects: [
+                {
+                    id: 'left_arrow',
+                    base: 'arrow_door',
+                    style: "width: 40px; height: 40px; transform:rotateY(180deg);top:3px; left: 3px;",
+                    targetScene: 'village'
+                },
+                {
+                    id: 'crystal_chest',
+                    base: 'crystal_chest',
+                    style: "width:248px; height:134px; top: 420px; left: 350px;"
+                },
+                {
+                    id: 'stone-book-1',
+                    base: 'uniqueCollectable',
+                    style: 'width: 110px; height: 160px; left: 350px; top: 245px',
+                    isCollected: false,
+                    item: items[28]
+                },
+                {
+                    id: 'stone-book-2',
+                    base: 'uniqueCollectable',
+                    style: 'width: 170px; height: 60px; left: 00px; top: 370px; transform: rotateZ(-13deg);',
+                    isCollected: false,
+                    item: items[29]
+                },
+                {
+                    id: 'stone-book-3',
+                    base: 'message',
+                    style: 'width: 80px; height: 110px; right: 50px; top: 200px;',
+                    message: `Les Cristaux
+
+Les cristaux surpassent les pierres, beaucoup plus rares et dotées d'une quantité de magie bien plus élevée.
+
+Mon classement repose sur le type de magie que chaque élément renferme :
+Bleu : l'Air, la transformation.
+Rouge : le Feu, la destruction.
+Vert : la Terre, la création.
+Violet : les Ténèbres, le secret.`
+                },
+                {
+                    id: 'crystal-hint',
+                    base: 'message',
+                    style: 'width: 190px; height: 110px; left: 150px; top: 470px;',
+                    message: `Coffre de cristaux :
+
+ 1. Si la mmm (masse molaire magique) du Solium est de 18.9 , alors l’Altidée n’est pas la clé.
+
+2. Si la quantité magique d’1g de Lunaris est de 1mol, alors le Boat n’est pas la
+clé. 
+
+Soient A la bleue Altidée, B le vert Boat, et C le flamboyant Fyrite, les pierres trouvées dans la grotte située au Nord,
+3. Si non-A et non-B, alors C, et si non-B et non-C alors A, et si non-A et non-C alors B.`
+                }
+            ]
+        },
+        chief: {
+            background: 'images/backgrounds/chief_house.jpg',
+            objects: [
+                {
+                    id: 'left_arrow',
+                    base: 'arrow_door',
+                    style: "width: 40px; height: 40px; transform:rotateY(180deg);top:3px; left: 3px;",
+                    targetScene: 'village'
+                },
+                {
+                    id: 'herborist-chest',
+                    base: 'herborist_chest',
+                    style: "width:80px; height: 75px; left: 520px; top: 400px;"
+                },
+                {
+                    id: 'chief-book-1',
+                    base: 'message',
+                    style: "width: 70px; height: 120px; left: 65px; top: 415px;",
+                    message: `(Dans un tiroir) 
+                    Merci pour notre discussion. Je te confie ma clé au cas où. Bonne chance pour la petite énigme ! 
+
+                    Sibilome < Estratan
+                    Mercil > Sibilome
+                    !(Mercil > Sibilome et Mercil > Estratan)
+                    
+                    ....... < ....... < .......`
+                },
+                {
+                    id: 'chief-book-2',
+                    base: 'uniqueCollectable',
+                    style: 'width: 120px; height: 140px; left: 470px; top: 245px',
+                    isCollected: false,
+                    item: items[27]
+                }
+            ]
+        },
+        flowers: {
+            background: 'images/backgrounds/forest_light.jpg',
+            objects: [
+                {
+                    id: 'flower',
+                    base: 'collectable',
+                    style: 'top: 400px; left: 25px; width: 70px; height: 70px; border-radius: 50%;',
+                    item: items[23]
+                },
+                {
+                    id: 'flower',
+                    base: 'collectable',
+                    style: 'top: 420px; left: 85px; width: 50px; height: 50px; border-radius: 50%;',
+                    item: items[23]
+                },
+                {
+                    id: 'flower',
+                    base: 'collectable',
+                    style: 'top: 430px; left: 160px; width: 60px; height: 60px; border-radius: 50%;',
+                    item: items[23]
+                },
+                {
+                    id: 'flower',
+                    base: 'collectable',
+                    style: 'top: 470px; left: 35px; width: 80px; height: 80px; border-radius: 50%;',
+                    item: items[23]
+                },
+                {
+                    id: 'flower',
+                    base: 'collectable',
+                    style: 'top: 490px; left: 130px; width: 50px; height: 50px; border-radius: 50%;',
+                    item: items[23]
+                },
+                {
+                    id: 'flower',
+                    base: 'collectable',
+                    style: 'top: 370px; left: 480px; width: 50px; height: 50px; border-radius: 50%;',
+                    item: items[23]
+                },
+                {
+                    id: 'flower',
+                    base: 'collectable',
+                    style: 'top: 360px; left: 550px; width: 60px; height: 60px; border-radius: 50%;',
+                    item: items[23]
+                },
+                {
+                    id: 'flower',
+                    base: 'collectable',
+                    style: 'top: 420px; left: 530px; width: 50px; height: 50px; border-radius: 50%;',
+                    item: items[23]
+                },
+                {
+                    id: 'flower',
+                    base: 'collectable',
+                    style: 'top: 380px; left: 200px; width: 50px; height: 50px; border-radius: 50%;',
+                    item: items[23]
+                },
             ]
         }
     };
 
-    const weighingMachine = document.getElementById('weighing-machine');
-    const writingMachine = document.getElementById('writing-machine');
 
     function changeScene(sceneName) {
+        if(sceneName == 'forest' && hasFlowers){
+                sceneName = 'flowers';
+        } 
+
+        if(sceneName == 'forest') {
+            forestMachine.style.display = 'flex';
+        } else {
+            forestMachine.style.display = 'none';
+        }
+
+
         const scene = scenes[sceneName];
         container.style.backgroundImage = `url(${scene.background})`;
         container.innerHTML = '';
@@ -648,6 +973,12 @@ L'ambre n'est pas le plus dense.`},
             weighingMachine.style.display = 'block';
         } else {
             weighingMachine.style.display = 'none';
+        }
+
+        // Potion clickable cursor
+        if(sceneName === 'potion') {
+            cauldronElem = document.getElementById('cauldron');
+            cauldronElem.style.cursor = 'pointer';
         }
     }
     
@@ -739,9 +1070,12 @@ function displayMessage(message) {
     // OBJECTS
     
     // Writing Machine
+    const writingMachineErrorElem = document.querySelector('#writing-machine .error-message');
+    const writingMachineSelect = document.getElementById('writing-machine-select');
+
     function openWritingMachine(){
-        // const machine = document.getElementById('writing-machine');
         writingMachine.style.display = 'flex';
+        writingMachineErrorElem.textContent = '';
     }
     
     function closeWritingMachine(){
@@ -749,25 +1083,343 @@ function displayMessage(message) {
 
     }
 
+    function addOptionToWritingMachineSelect(item) {
+        if(item.value) {
+            const newOption = document.createElement('option');
+            newOption.textContent = item.name;
+            newOption.value = item.value;
+            writingMachineSelect.appendChild(newOption);
+        }
+    }
+
     function handleSubmitWritingMachine(){
         const select = document.getElementById('writing-machine-select').value;
         const input1 = document.getElementById('writing-machine-input-1').value;
         const input2 = document.getElementById('writing-machine-input-2').value;
-        if(select == 'fountain' && input1 == 4 && input2 == 2){
-            console.log("success !");
-            addToInventory(items[11]);
-        } else {
-            console.log("fail !");
+
+        if(!select) {
+            writingMachineErrorElem.textContent = 'Veuillez choisir un texte à traduire.';
+            return;
         }
+
+        if(!(select == 'fountain' && input1 == 4 && input2 == 2)){
+            writingMachineErrorElem.textContent = `Aucune traduction n'a été trouvée. Choisissez d'autres valeurs.`;
+            return;
+        } 
+
+        const item = items.find(it => it.value == select);
+        if(item){
+            addToInventory(item);
+        }
+
     }
 
 
+    // CALENDAR MACHINE
 
-    changeScene('village');
-    // changeScene('library');
-    // changeScene('kitchen');
-    // changeScene('house');
-    // changeScene('chief');
-    // changeScene('cave');
-    // changeScene('potion');
+    document.querySelector('#calendar-machine .close-btn').addEventListener('click', (e) => {
+        calendarMachine.style.display = 'none';
+    });
 
+    const temperatureElements = document.querySelectorAll('#calendar-machine td');
+    let temperatureColor = 'black';
+    
+    const styleBtns = document.querySelectorAll('#calendar-machine .style-btn');
+    styleBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            temperatureColor = e.target.getAttribute('data-color');
+            console.log(temperatureColor)
+
+            styleBtns.forEach(styleBtn => {
+                styleBtn.classList.remove('active');
+            })
+            e.target.classList.add('active');
+        })
+    })
+    
+    temperatureElements.forEach(elem => {
+        elem.addEventListener('click', (e) => {
+            e.target.style.textDecoration = e.target.style.textDecoration == '' ? `line-through 1px ${temperatureColor}` : '';
+        })
+    })
+
+    // FOREST MACHINE
+
+    // Remplir le select des heures
+const hourSelect = document.getElementById('forest-hour');
+for (let i = 0; i <= 23; i++) {
+    let option = document.createElement('option');
+    option.value = i;
+    option.text = i + 'h';
+    hourSelect.appendChild(option);
+}
+
+// Remplir le select des minutes
+const minuteSelect = document.getElementById('forest-minute');
+for (let i = 0; i <= 59; i++) {
+    let option = document.createElement('option');
+    option.value = i;
+    option.text = i + 'm';
+    minuteSelect.appendChild(option);
+}
+
+hourSelect.addEventListener('change', (e) => {
+    if(e.target.value == 2 && minuteSelect.value == 11 && !hasFlowers) {
+        hasFlowers = true;
+        forestMachine.style.display = 'none';
+        changeScene('flowers')
+    }
+});
+
+minuteSelect.addEventListener('change', (e) => {
+    if(e.target.value == 11 && hourSelect.value == 2 && !hasFlowers) {
+        hasFlowers = true;
+        forestMachine.style.display = 'none';
+        changeScene('flowers');
+    }
+});
+
+// HERBORIST MACHINE
+
+const herbBtns = document.querySelectorAll('.herb-btn');
+const herbImgs1 = document.querySelectorAll('#herb-btn-1 img');
+const herbImgs2 = document.querySelectorAll('#herb-btn-2 img');
+const herbImgs3 = document.querySelectorAll('#herb-btn-3 img');
+
+const herboristChestIndexes = [0,1,2];
+const herboristChest = [0,2,1];
+
+// Close btn
+document.querySelector('#herborist-machine .close-btn').addEventListener('click', (e) => {
+    herboristMachine.style.display = 'none';
+});
+
+herbBtns[0].addEventListener('click', (e) => {
+    const btn = e.currentTarget;
+
+    herbImgs1.forEach(img => {
+        img.style.display = 'none';
+    });
+    
+    const newIndex = (parseInt(btn.getAttribute('data-index')) + 1) % herbImgs1.length; 
+    btn.setAttribute('data-index', newIndex);
+    
+    herbImgs1[newIndex].style.display = 'block';
+
+    herboristChestIndexes[0] = newIndex;
+    checkHerboristChest();
+});
+herbBtns[1].addEventListener('click', (e) => {
+    const btn = e.currentTarget;
+
+    herbImgs2.forEach(img => {
+        img.style.display = 'none';
+    });
+    
+    const newIndex = (parseInt(btn.getAttribute('data-index')) + 1) % herbImgs2.length; 
+    btn.setAttribute('data-index', newIndex);
+
+    herbImgs2[newIndex].style.display = 'block';
+
+    herboristChestIndexes[1] = newIndex;
+    checkHerboristChest();
+});
+herbBtns[2].addEventListener('click', (e) => {
+    const btn = e.currentTarget;
+
+    herbImgs3.forEach(img => {
+        img.style.display = 'none';
+    });
+    
+    const newIndex = (parseInt(btn.getAttribute('data-index')) + 1) % herbImgs3.length; 
+    btn.setAttribute('data-index', newIndex);
+
+    herbImgs3[newIndex].style.display = 'block';
+
+    herboristChestIndexes[2] = newIndex;
+    checkHerboristChest();
+});
+
+function checkHerboristChest(){
+    console.log('click')
+    for(let i=0; i<3; i++){
+        if(herboristChestIndexes[i] != herboristChest[i]){
+            return;
+        }
+    }
+    herboristMachine.style.display = 'none';
+    addToInventory(items[22]);
+}
+
+
+// CRYSTAL MACHINE
+
+const crystalDropElem = document.getElementById('crystal-drop');
+const crystalImgs = document.querySelectorAll('.crystal-images img');
+
+// Close btn
+document.querySelector('#crystal-machine .close-btn').addEventListener('click', () => {
+    crystalMachine.style.display = 'none';
+});
+
+crystalDropElem.addEventListener('click', (e) => {
+    switch(selectedItemInHand.name){
+        case 'Pierre bleue':
+            crystalImgs.forEach(img => {
+                img.style.display = 'none';
+            });
+            crystalImgs[0].style.display = 'block';
+            break;
+        case 'Pierre verte':
+            crystalImgs.forEach(img => {
+                img.style.display = 'none';
+            });
+            crystalImgs[1].style.display = 'block';
+            break;
+        case 'Pierre orange':
+            crystalImgs.forEach(img => {
+                img.style.display = 'none';
+                crystalMachine.style.display = 'none';
+                addToInventory(items[24]);
+                addToInventory(items[24]);
+                addToInventory(items[24]);
+                addToInventory(items[25]);
+                addToInventory(items[25]);
+                addToInventory(items[25]);
+                addToInventory(items[26]);
+                addToInventory(items[26]);
+                addToInventory(items[26]);
+                hasCrystal = true;
+            });
+            crystalImgs[2].style.display = 'block';
+            break;
+        default:
+            // displayMessage('Rien ne se passe');
+            break;
+    }
+});
+
+
+// POTION MACHINE
+
+// Close btn
+document.querySelector('#potion-machine .close-btn').addEventListener('click', (e) => {
+    potionMachine.style.display = 'none';
+    isPotionMachineOpen = false;
+    if(cauldronElem) {
+        cauldronElem.style.cursor = 'pointer';
+    }
+})
+
+const currentPotionIngredients = [];
+
+const potionIngredients = [
+    {
+        name: 'Fleur lumineuse',
+        weight: 0
+    },
+    {
+        name: 'Cristal bleu',
+        weight: 2
+    },
+    {
+        name: 'Grand champignon',
+        weight: 0
+    },
+    {
+        name: 'Plume de phénix',
+        weight: 0
+    }
+];
+
+const ingredientsContainer = document.getElementById('ingredients');
+let potionIngredientsElements = document.querySelectorAll('.ingredient');
+let potionIngredientNamesElements = document.querySelectorAll('.ingredient .ingredientName');
+let potionIngredientWeightsElements = document.querySelectorAll('.ingredient .weight');
+
+// Mix btn
+document.getElementById('mix-btn').addEventListener('click', (e) => {
+    checkPotionIngredients();
+})
+
+
+function addIngredientToPotion(item) {
+    if(item) {
+        const {name, weight} = item;
+        const existingIngredient = currentPotionIngredients.find(ingredient => ingredient.name === name);
+
+        if (existingIngredient) {
+            existingIngredient.weight += weight;
+        } else {
+            currentPotionIngredients.push({name, weight});
+        }
+
+        removeFromInventory(item);
+
+        updateRecipe();
+    }
+}
+
+function updateRecipe() {
+    currentPotionIngredients.forEach((ingredient, i) => {
+        if(!potionIngredientsElements[i]) {
+            const newIngredientElem = document.createElement('li'); 
+            newIngredientElem.innerHTML = `<span class="ingredientName">Ingrédient 4</span> (<span class="weight">0</span>g)`;
+            newIngredientElem.classList.add('ingredient');
+            ingredientsContainer.appendChild(newIngredientElem);
+
+            potionIngredientsElements = document.querySelectorAll('.ingredient');
+            potionIngredientNamesElements = document.querySelectorAll('.ingredient .ingredientName');
+            potionIngredientWeightsElements = document.querySelectorAll('.ingredient .weight');
+        }
+        potionIngredientNamesElements[i].textContent = ingredient.name;
+        potionIngredientWeightsElements[i].textContent = ingredient.weight;
+    })
+}
+
+function checkPotionIngredients() {
+    console.log(currentPotionIngredients);
+    
+    let hasIngredient = true;
+    let hasWeight = true;
+    
+    potionIngredients.forEach((ingredient, i) => {
+        hasIngredient = currentPotionIngredients.find(cur => cur.name == ingredient.name);
+        hasWeight = currentPotionIngredients.find(cur => cur.weight >= ingredient.weight);
+        
+        if(!hasIngredient || !hasWeight) {
+            return;
+        }
+    });
+    
+    if(hasIngredient && hasWeight) {
+        console.log('found ! ')
+        document.getElementById('pink-potion').style.display = 'block';
+    }
+    
+    // Reset recipe panel
+    currentPotionIngredients.length = 0;
+    ingredientsContainer.innerHTML = `
+    <li class="ingredient"><span class="ingredientName">Ingrédient 1</span> (<span class="weight">0</span>g)</li>
+    <li class="ingredient"><span class="ingredientName">Ingrédient 2</span> (<span class="weight">0</span>g)</li>
+    <li class="ingredient"><span class="ingredientName">Ingrédient 3</span> (<span class="weight">0</span>g)</li>
+    <li class="ingredient"><span class="ingredientName">Ingrédient 4</span> (<span class="weight">0</span>g)</li>            </ul>
+    `;
+    potionIngredientsElements = document.querySelectorAll('.ingredient');
+    potionIngredientNamesElements = document.querySelectorAll('.ingredient .ingredientName');
+    potionIngredientWeightsElements = document.querySelectorAll('.ingredient .weight');
+}
+
+
+
+// changeScene('village');
+// changeScene('library');
+// changeScene('kitchen');
+// changeScene('house');
+// changeScene('chief');
+// changeScene('cave');
+// changeScene('potion');
+// changeScene('herborist');
+// changeScene('forest');
+// changeScene('flowers');
+changeScene('mineralogist');
