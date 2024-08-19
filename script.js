@@ -1412,7 +1412,7 @@ function checkPotionIngredients() {
 
 
 
-// changeScene('village');
+changeScene('village');
 // changeScene('library');
 // changeScene('kitchen');
 // changeScene('house');
@@ -1422,4 +1422,4 @@ function checkPotionIngredients() {
 // changeScene('herborist');
 // changeScene('forest');
 // changeScene('flowers');
-changeScene('mineralogist');
+// changeScene('mineralogist');
