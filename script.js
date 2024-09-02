@@ -93,27 +93,27 @@ L'ambre n'est pas le plus dense.`},
 
     // INVENTORY
     const inventory = [
-        {
-            name: 'Fleur rose',
-            image: 'images/inventory/item_flower_pink.jpg',
-            description: 'Une fleur rose.',
-            count: 5,
-            weight: 1
-        },
-        {
-            name: 'Fleur orange',
-            image: 'images/inventory/item_flower_orange.jpg',
-            description: 'Une fleur orange.',
-            count: 5,
-            weight: 1
-        },
-        {index: 15, name: 'Clés du laboratoire', image: 'images/inventory/potionKey.jpg', description: 'Les clés du laboratoire.', weight : 1, count: 1},
-        {index: 21, name: 'Clés de chez le minéralogiste', image: 'images/inventory/potionKey.jpg', description: 'Les clés de chez le minéralogiste.', count: 1},
-        {index: 22, name: "Clés de chez l'herboriste", image: 'images/inventory/potionKey.jpg', description: "Les clés de chez l'herboriste.", count: 1},
-        {index: 3, name: 'Pierre orange', description: "Une pierre orange.", image: 'images/inventory/item_rock_orange.jpg', weight : 1, count: 1},
-        {index: 4, name: 'Pierre verte', description: "Une pierre verte.", image: 'images/inventory/item_rock_green.jpg', weight : 1, count: 1},
-        {index: 5, name: 'Pierre bleue', description: "Une pierre bleue.", image: 'images/inventory/item_rock_blue.jpg', weight : 1, count: 1},
-        {index: 20, name: 'Potion ultime', description: 'Une potion qui pourrait vaincre le fléau.', count: 1},
+        // {
+        //     name: 'Fleur rose',
+        //     image: 'images/inventory/item_flower_pink.jpg',
+        //     description: 'Une fleur rose.',
+        //     count: 5,
+        //     weight: 1
+        // },
+        // {
+        //     name: 'Fleur orange',
+        //     image: 'images/inventory/item_flower_orange.jpg',
+        //     description: 'Une fleur orange.',
+        //     count: 5,
+        //     weight: 1
+        // },
+        // {index: 15, name: 'Clés du laboratoire', image: 'images/inventory/potionKey.jpg', description: 'Les clés du laboratoire.', weight : 1, count: 1},
+        // {index: 21, name: 'Clés de chez le minéralogiste', image: 'images/inventory/potionKey.jpg', description: 'Les clés de chez le minéralogiste.', count: 1},
+        // {index: 22, name: "Clés de chez l'herboriste", image: 'images/inventory/potionKey.jpg', description: "Les clés de chez l'herboriste.", count: 1},
+        // {index: 3, name: 'Pierre orange', description: "Une pierre orange.", image: 'images/inventory/item_rock_orange.jpg', weight : 1, count: 1},
+        // {index: 4, name: 'Pierre verte', description: "Une pierre verte.", image: 'images/inventory/item_rock_green.jpg', weight : 1, count: 1},
+        // {index: 5, name: 'Pierre bleue', description: "Une pierre bleue.", image: 'images/inventory/item_rock_blue.jpg', weight : 1, count: 1},
+        // {index: 20, name: 'Potion ultime', description: 'Une potion qui pourrait vaincre le fléau.', count: 1},
 
 
     ];
@@ -377,6 +377,8 @@ L'ambre n'est pas le plus dense.`},
                     addToInventory(this.item);
                     collectedItems.add(this.id);
                     this.isCollected = true;
+                    // TODO marche pas
+                    document.getElementById('this.id').style.display = 'none';
                 }
                 if(this.message){
                     displayMessage(this.message);
@@ -648,7 +650,7 @@ L'ambre n'est pas le plus dense.`},
                 },
                 {
                     id: 'phoenix',
-                    base: 'collectable',
+                    base: 'uniqueCollectable',
                     style: 'top: 110px; left: 10px; width: 100px; height: 150px;',
                     item: items[9]
                 },
@@ -1564,13 +1566,13 @@ function checkPotionIngredients() {
 
 
 
-// changeScene('village');
+changeScene('village');
 // changeScene('library');
 // changeScene('kitchen');
 // changeScene('house');
 // changeScene('chief');
 // changeScene('cave');
-changeScene('potion');
+// changeScene('potion');
 // changeScene('herborist');
 // changeScene('forest');
 // changeScene('flowers');
