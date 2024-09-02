@@ -36,9 +36,9 @@
         {index: 4, name: 'Pierre verte', description: "Une pierre verte.", image: 'images/inventory/item_rock_green.jpg', weight: 1},
         {index: 5, name: 'Pierre bleue', description: "Une pierre bleue.", image: 'images/inventory/item_rock_blue.jpg', weight: 1},
         
-        {index: 6, name: 'Grand champignon', description: "Un grand champignon.", image: 'images/inventory/big_mushroom.jpg', weight: 3},
-        {index: 7, name: 'Champignon moyen', description: "Un champignon de taille moyenne.", image: 'images/inventory/medium_mushroom.jpg', weight: 2},
-        {index: 8, name: 'Petit champignon', description: "Un petit champignon.", image: 'images/inventory/small_mushroom.jpg', weight: 1},
+        {index: 6, name: 'Grand champignon', description: "Un grand champignon.", image: 'images/inventory/big_mushroom.jpg', weight: 75},
+        {index: 7, name: 'Champignon moyen', description: "Un champignon de taille moyenne.", image: 'images/inventory/medium_mushroom.jpg', weight: 50},
+        {index: 8, name: 'Petit champignon', description: "Un petit champignon.", image: 'images/inventory/small_mushroom.jpg', weight: 25},
         
         {index: 9, name: 'Plume de phénix', description: "Une plume de phénix.", image: 'images/inventory/item_feather.jpg', weight: 1},
     
@@ -69,10 +69,10 @@
         {index: 19, name:'Note trouvée chez le minéralogiste', image: '', description: `L'émeraude est moins dense que le topaze.
 Le topaze est plus dense que l'ambre.
 L'ambre n'est pas le plus dense.`},
-        {index: 20, name: 'Potion ultime', description: 'Une potion qui pourrait vaincre le fléau.'},
+        {index: 20, name: 'Potion Ultima', description: 'Une potion scintillante obtenue en mélangeant les ingrédients inscrits sur la fontaine.'},
 
-        {index: 21, name: 'Clés de chez le minéralogiste', image: 'images/inventory/potionKey.jpg', description: 'Les clés de chez le minéralogiste.'},
-        {index: 22, name: "Clés de chez l'herboriste", image: 'images/inventory/potionKey.jpg', description: "Les clés de chez l'herboriste."},
+        {index: 21, name: 'Clé du minéralogiste', image: 'images/inventory/potionKey.jpg', description: 'Les clés de chez le minéralogiste.'},
+        {index: 22, name: "Clé de l'herboriste", image: 'images/inventory/potionKey.jpg', description: "Les clés de chez l'herboriste."},
         
         {index: 23, name: 'Fleur lumineuse', description: "Une fleur étincelante.", image: 'images/inventory/item_luminous_flower.jpg', weight: 1},
 
@@ -83,8 +83,11 @@ L'ambre n'est pas le plus dense.`},
         {index: 27, name: '"Plantes et Magie", p.534', image: 'images/uniqueCollectables/herb_hint.jpg', description: `L'oeuvre d'une vie de l'herboriste Marg Erite trouvée dans la bibliothèque du chef du village.`, zoom: 'images/uniqueCollectables/herb_hint.jpg'},
         
         {index: 28, name: '"Eléments", p.57', image: 'images/uniqueCollectables/elements.jpg', description: `Livre du minéralogiste H. Ogène, chapitre sur la classification des éléments magiques.`, zoom: 'images/uniqueCollectables/elements.jpg'},
-        {index: 29, name: 'Calculs griffonnés', image: 'images/uniqueCollectables/formulas.jpg', description: `Des formules écrites par Hydre, sur le calcul de la Quantité de Matière Magique (en qmm) et la Charge Magique Atomique (en UM)`, zoom: 'images/uniqueCollectables/formulas.jpg'},
+        {index: 29, name: 'Calculs griffonnés', image: 'images/uniqueCollectables/formulas.jpg', description: `Des formules écrites par Hydr, sur le calcul de la Quantité de Matière Magique (en qmm) et la Charge Magique Atomique (en UM)`, zoom: 'images/uniqueCollectables/formulas.jpg'},
     
+        {index: 30, name: "Clé du chef du village", image: 'images/inventory/potionKey.jpg', description: "Les clés de la maison du chef du village. Les nombreux champignons cachés protègent la maison des Ombres."},
+        
+        {index: 31, name: "Trophée en or", image: 'images/inventory/potionKey.jpg', description: "Un trophée remis par le chef du village pour avoir éradiqué le Fléau."},
     ];
     
 
@@ -283,7 +286,6 @@ L'ambre n'est pas le plus dense.`},
         enemy: {
             src: 'images/enemies/enemy.png',
             action: function() {
-                console.log("hp : " + this.hp)
                 if(selectedItemInHand){
                     switch(selectedItemInHand.name) {
                         case 'Grand champignon':
@@ -297,6 +299,18 @@ L'ambre n'est pas le plus dense.`},
                             break;
                         default:
                             return;
+                    }
+
+                    // Mettre à jour la barre de vie
+                    const healthPercentage = Math.max((this.hp / 3) * 100, 0); // Ajuster 3 au max HP
+                    this.healthBar.style.width = `${healthPercentage}%`;
+
+                    removeFromInventory(selectedItemInHand);
+                    if (this.hp <= 0) {
+                        document.getElementById(this.id).style.display = 'none';
+                        if (this.healthBarContainer) {
+                            this.healthBarContainer.style.display = 'none';
+                        }
                     }
                 }
                 removeFromInventory(selectedItemInHand);
@@ -369,6 +383,18 @@ L'ambre n'est pas le plus dense.`},
                 }
             }
         },
+        chief_mushrooms: {
+            type: 'div',
+            action: function() {
+                for(let i=0; i<10; i++){
+                    addToInventory(items[8])
+                }
+                for(let i=0; i<10; i++){
+                    addToInventory(items[7])
+                }
+                addToInventory(items[6])
+            }
+        },
         writing_machine: {
             type: 'div',
             action: function(){
@@ -436,6 +462,11 @@ L'ambre n'est pas le plus dense.`},
     function addToFountain(item) {
         if(item.name == 'Potion ultime') {
             displayMessage(`Vous versez la potion dans la fontaine, qui s'illumine. Les ombres s'affaissent, et disparaissent.`)
+            messageContainer.classList.add('dialogue');
+            displayMessage(`Tu as réussi ! Les Ombres ne devraient pas revenir de sitôt, grâce à toi. Prends ce trophée en guise de remerciement.`);
+            addToInventory(items[31]);
+            isTuto = true;
+            tutoStep = 'end';
         } else {
             displayMessage(`Rien ne se passe.`)
         }
@@ -522,10 +553,11 @@ L'ambre n'est pas le plus dense.`},
                     targetScene: 'potion'
                 },
                 {
-                    id: 'door_chief',
+                    id: 'door-chief',
                     base: 'door',
                     style: 'top: 340px; left: 140px; width: 40px; height: 70px;',
-                    message: 'Porte verrouillée.',
+                    message: "Porte verrouillée.",
+                    key: items[30],
                     targetScene: 'chief'
                 },
                 {
@@ -552,6 +584,26 @@ L'ambre n'est pas le plus dense.`},
             background: 'images/backgrounds/house.jpg',
             objects: [
                 {
+                    id: 'left_arrow',
+                    base: 'arrow_door',
+                    style: "width: 40px; height: 40px; transform:rotateY(180deg);top:3px; left: 3px;",
+                    targetScene: 'village'
+                },
+                {
+                    id: 'message-1',
+                    base: 'message',
+                    style: "width: 25px; height: 30px; top: 390px; left: 310px; transform:rotate(15deg); background-color: beige; opacity: 1; border-radius: 0; box-shadow: 1px 1px 1px grey;",
+                    message: `Je suis partie récupérer des ingrédients pour ma nouvelle potion pousse-cheveux. N’oublie pas de nourrir le chat : 40g de croquettes par jour. Merci !`
+                },
+                {
+                    id: 'message-2',
+                    base: 'message',
+                    style: "width: 80px; height: 90px; top: 280px; left: 330px;",
+                    message: `Notre réussite approche, mais le temps presse. Le Fléau revient tous les demi-siècles en moyenne. 
+                    
+                    Finalement, la plume de phénix était inutile.`
+                },
+                {
                     id: 'door_kitchen',
                     base: 'door',
                     style: 'top: 300px; left: 490px; width: 70px; height: 120px',
@@ -576,6 +628,18 @@ L'ambre n'est pas le plus dense.`},
         potion: {
             background: 'images/backgrounds/potionRoom.jpg',
             objects: [
+                {
+                    id: 'left_arrow',
+                    base: 'arrow_door',
+                    style: "width: 40px; height: 40px; transform:rotateY(180deg);top:3px; left: 3px;",
+                    targetScene: 'village'
+                },
+                {
+                    id: 'black-potion',
+                    base: 'message',
+                    style: "width: 100px; height: 110px; top: 430px; left: 90px;",
+                    message: 'Une mixture étrange.'
+                },
                 {
                     id: 'pink-potion',
                     base: 'pink_potion',
@@ -614,11 +678,24 @@ L'ambre n'est pas le plus dense.`},
         },
         forest: {
             background: 'images/backgrounds/forest_dark.jpg',
-            objects: []
+            objects: [
+                {
+                    id: 'left_arrow',
+                    base: 'arrow_door',
+                    style: "width: 40px; height: 40px; transform:rotateY(180deg);top:3px; left: 3px;",
+                    targetScene: 'village'
+                },
+            ]
         },
         cave: {
             background: 'images/backgrounds/cave.jpg',
             objects: [
+                {
+                    id: 'left_arrow',
+                    base: 'arrow_door',
+                    style: "width: 40px; height: 40px; transform:rotateY(180deg);top:3px; left: 3px;",
+                    targetScene: 'village'
+                },
                 {
                     id: 'green-stone-1',
                     base: 'collectable',
@@ -660,6 +737,12 @@ L'ambre n'est pas le plus dense.`},
         library: {
             background: 'images/backgrounds/library.jpg',
             objects: [
+                {
+                    id: 'left_arrow',
+                    base: 'arrow_door',
+                    style: "width: 40px; height: 40px; transform:rotateY(180deg);top:3px; left: 3px;",
+                    targetScene: 'village'
+                },
                 {
                     id: 'book1',
                     base: 'message',
@@ -721,6 +804,12 @@ L'ambre n'est pas le plus dense.`},
                     targetScene: 'village'
                 },
                 {
+                    id: 'message-1',
+                    base: 'message',
+                    style: "height: 80px; width: 60px; top: 220px;",
+                    message: `J’ai donné une clé au chef, comme Hydr m’a donné la sienne. Il n’a pas été facile de le convaincre de financer mes voyages, et encore moins de lui avouer tout ce qui se tramait dans son dos. L’heure n’est plus à la concurrence entre les sciences, mais à la collaboration. Ensemble, on peut vaincre ce Fléau.`
+                },
+                {
                     id: 'calendar',
                     base: 'calendar',
                     style: "width:160px; height:50px;top:400px; left: -35px; transform:rotateZ(-25deg);"
@@ -768,6 +857,14 @@ J’ai enfin fini Meteor, un bijou de technologie qui prédit les températures 
                     base: 'arrow_door',
                     style: "width: 40px; height: 40px; transform:rotateY(180deg);top:3px; left: 3px;",
                     targetScene: 'village'
+                },
+                {
+                    id: 'message-1',
+                    base: 'message',
+                    style: "height: 100px; width: 70px; left: 260px; top: 200px;",
+                    message: `Histoire du Fléau, p.147
+                    
+                    Après des siècles de peur, la pierre salvique représentait un nouvel espoir. Tout le village s’entraida pour construire un gigantesque abri. Une philosophie nouvelle émergeait : pourquoi combattre quand on pouvait se cacher le temps que les ombres s’amenuisent ? L’épidémie était devenue une maladie passagère.`
                 },
                 {
                     id: 'crystal_chest',
@@ -828,6 +925,25 @@ Soient A la bleue Altidée, B le vert Boat, et C le flamboyant Fyrite, les pierr
                     targetScene: 'village'
                 },
                 {
+                    id: 'message-1',
+                    base: 'message',
+                    style: "width: 70px; top: 350px; left: 100px;",
+                    message: 
+`AMANITES!
+
+75g: -100
+50g: -67
+25g: -34`
+                },
+                {
+                    id: 'message-2',
+                    base: 'message',
+                    style: 'height: 100px; width: 30px; top: 360px; left: 185px;',
+                    message:
+`Mon fils, tu as fait preuve de bravoure aujourd’hui. Mais il n’est pas encore temps pour toi d’être brave. C’est mon devoir de rester dehors, et ton devoir de te cacher. Un jour, c’est toi qui devras rester. 
+Ce jour-là, ne laisse aucun villageois sans protection. Tu feras un merveilleux chef, j’en suis certain.`
+                },
+                {
                     id: 'herborist-chest',
                     base: 'herborist_chest',
                     style: "width:80px; height: 75px; left: 520px; top: 400px;"
@@ -837,13 +953,18 @@ Soient A la bleue Altidée, B le vert Boat, et C le flamboyant Fyrite, les pierr
                     base: 'message',
                     style: "width: 70px; height: 120px; left: 65px; top: 415px;",
                     message: `(Dans un tiroir) 
-                    Merci pour notre discussion. Je te confie ma clé au cas où. Bonne chance pour la petite énigme ! 
+                    Merci pour notre discussion. Je te confie ma clé au cas où. 
 
                     Sibilome < Estratan
                     Mercil > Sibilome
                     !(Mercil > Sibilome et Mercil > Estratan)
                     
                     ....... < ....... < .......`
+                },
+                {
+                    id: 'chief-mushrooms',
+                    base: 'chief_mushrooms',
+                    style: 'height: 100px; width: 80px; top: 310px; left: 380px;',
                 },
                 {
                     id: 'chief-book-2',
@@ -857,6 +978,12 @@ Soient A la bleue Altidée, B le vert Boat, et C le flamboyant Fyrite, les pierr
         flowers: {
             background: 'images/backgrounds/forest_light.jpg',
             objects: [
+                {
+                    id: 'left_arrow',
+                    base: 'arrow_door',
+                    style: "width: 40px; height: 40px; transform:rotateY(180deg);top:3px; left: 3px;",
+                    targetScene: 'village'
+                },
                 {
                     id: 'flower',
                     base: 'collectable',
@@ -916,18 +1043,19 @@ Soient A la bleue Altidée, B le vert Boat, et C le flamboyant Fyrite, les pierr
     };
 
 
+
+
     function changeScene(sceneName) {
         if(sceneName == 'forest' && hasFlowers){
-                sceneName = 'flowers';
+            sceneName = 'flowers';
         } 
-
+    
         if(sceneName == 'forest') {
             forestMachine.style.display = 'flex';
         } else {
             forestMachine.style.display = 'none';
         }
-
-
+    
         const scene = scenes[sceneName];
         container.style.backgroundImage = `url(${scene.background})`;
         container.innerHTML = '';
@@ -949,6 +1077,29 @@ Soient A la bleue Altidée, B le vert Boat, et C le flamboyant Fyrite, les pierr
             element.style = obj.style;
             element.message = obj.message;
             element.targetScene = obj.targetScene;
+    
+            // HEALTHBAR
+            if (obj.base === 'enemy') {
+                const healthBarContainer = document.createElement('div');
+                healthBarContainer.classList.add('healthbar-container');
+                healthBarContainer.style.position = 'absolute';
+                healthBarContainer.style.width = '50px';
+                healthBarContainer.style.height = '5px';
+                healthBarContainer.style.backgroundColor = 'grey';
+                healthBarContainer.style.top = `${parseInt(obj.style.split('top:')[1]) - 15}px`; // Positionnement au-dessus de l'ennemi
+                healthBarContainer.style.left = `${parseInt(obj.style.split('left:')[1]) + 0}px`; // Centrer horizontalement
+                healthBarContainer.style.right = `${parseInt(obj.style.split('right:')[1]) + 10}px`; // Centrer horizontalement
+
+                const healthBar = document.createElement('div');
+                healthBar.classList.add('healthbar');
+                healthBar.style.width = '100%'; // Taille initiale à 100%
+                healthBar.style.height = '100%';
+                healthBarContainer.appendChild(healthBar);
+    
+                container.appendChild(healthBarContainer);
+                element.healthBar = healthBar; // Stocker la barre de vie dans l'élément pour y accéder plus tard
+                element.healthBarContainer = healthBarContainer;
+            }
     
             for (let prop in obj) {
                 if (obj.hasOwnProperty(prop) && !(prop in baseObj)) {
@@ -974,13 +1125,14 @@ Soient A la bleue Altidée, B le vert Boat, et C le flamboyant Fyrite, les pierr
         } else {
             weighingMachine.style.display = 'none';
         }
-
+    
         // Potion clickable cursor
         if(sceneName === 'potion') {
             cauldronElem = document.getElementById('cauldron');
             cauldronElem.style.cursor = 'pointer';
         }
     }
+    
     
     
     const inventoryName = document.getElementById('inventory-name');
@@ -1005,7 +1157,7 @@ Soient A la bleue Altidée, B le vert Boat, et C le flamboyant Fyrite, les pierr
         document.body.appendChild(messageContainer);
         setTimeout(() => {
             document.body.removeChild(messageContainer);
-        }, 2000);
+        }, 4000);
     }
 
     function updateInventory() {
@@ -1393,7 +1545,7 @@ function checkPotionIngredients() {
     });
     
     if(hasIngredient && hasWeight) {
-        console.log('found ! ')
+        document.getElementById('black-potion').style.display = 'none';
         document.getElementById('pink-potion').style.display = 'block';
     }
     
@@ -1412,14 +1564,85 @@ function checkPotionIngredients() {
 
 
 
-changeScene('village');
+// changeScene('village');
 // changeScene('library');
 // changeScene('kitchen');
 // changeScene('house');
 // changeScene('chief');
 // changeScene('cave');
-// changeScene('potion');
+changeScene('potion');
 // changeScene('herborist');
 // changeScene('forest');
 // changeScene('flowers');
 // changeScene('mineralogist');
+
+
+// displayMessage(`CHEF DU VILLAGE 
+// Où étais-tu passé ? Les autres se sont déjà enfermés dans l’abri. Maintenant, tu vas devoir te débrouiller seul. Je vais voir si d’autres villageois sont restés dehors. N’oublie pas, les Ombres n’aiment pas les champignons. J’en ai plein ma maison. Voilà ma clé, tu seras plus en sécurité.`)
+addToInventory(items[30]);
+
+let isTuto = false;
+const tutoSteps = ['chief', 'collect', 'hand', 'select', 'throw', 'congratulations', 'end']
+let tutoStep = tutoSteps[0];
+const closeMessageBtn = document.getElementById('close-message-btn');
+closeMessageBtn.addEventListener('click', (e) => {
+    if(!isTuto){
+        return;
+    }
+    switch(tutoStep){
+        case 'chief':
+            messageContainer.classList.remove('dialogue');
+            messageContainer.style.zIndex = 30;
+            displayMessage(`Cueille des champignons en cliquant dessus.`)
+            tutoStep = tutoSteps[1];
+            break;
+        case 'collect':
+            displayMessage(`Les champignons ont été ajoutés à ton inventaire. Clique sur l’icône sac à dos.`)
+            tutoStep = tutoSteps[2];
+            break;
+        case 'hand':
+            displayMessage(`Fais glisser un champignon jusqu'à le déposer dans ta main (cases en bas à droite).`)
+            tutoStep = tutoSteps[3];
+            break;
+        case 'select':
+            displayMessage(`Clique sur le champignon dans ta main.`)
+            tutoStep = tutoSteps[4];
+            break;
+        case 'throw':
+            displayMessage(`Clique sur un ennemi pour lancer un champignon et faire baisser sa vie.`)
+            tutoStep = tutoSteps[5];
+            break;
+        case 'congratulations':
+            displayMessage(`Bravo ! Inspecte les lieux, peut-être que se cacher dans la maison du chef n'est pas la seule possibilité.`)
+            isTuto = false;
+            messageContainer.style.zIndex = 0;
+            break;
+        case 'end':
+            messageContainer.classList.remove('dialogue');
+            tutoStep = '';
+            isTuto = false;
+            break;
+    }
+});
+
+document.addEventListener('keydown', (e) => {
+    console.log(e.key)
+    switch(e.key){
+        case 'i':
+            if (inventoryContainer.style.display === 'none') {
+                inventoryContainer.style.display = 'flex';
+                updateInventory();
+            } else {
+                inventoryContainer.style.display = 'none';
+                zoomContainer.style.display = 'none';
+            }
+            break;
+        case 'm':
+            if (mapContainer.style.display === 'none') {
+                mapContainer.style.display = 'block';
+            } else {
+                mapContainer.style.display = 'none';
+            }
+            break;
+    }
+})
