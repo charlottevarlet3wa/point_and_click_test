@@ -76,9 +76,9 @@ L'ambre n'est pas le plus dense.`},
         
         {index: 23, name: 'Fleur lumineuse', description: "Une fleur étincelante.", image: 'images/inventory/item_luminous_flower.jpg', weight: 1},
 
-        {index: 24, name: 'Cristal orange', description: "Un cristal orange.", image: 'images/inventory/item_crystal_orange.jpg', weight: 1},
-        {index: 25, name: 'Cristal vert', description: "Un cristal vert.", image: 'images/inventory/item_crystal_green.jpg', weight: 1},
-        {index: 26, name: 'Cristal bleu', description: "Un cristal bleu.", image: 'images/inventory/item_crystal_blue.jpg', weight: 1},
+        {index: 24, name: 'Cristal violet', description: "Un cristal orange.", image: 'images/inventory/item_crystal_orange.jpg', weight: 5.3},
+        {index: 25, name: 'Cristal vert', description: "Un cristal vert.", image: 'images/inventory/item_crystal_green.jpg', weight: 4.7},
+        {index: 26, name: 'Cristal bleu', description: "Un cristal bleu.", image: 'images/inventory/item_crystal_blue.jpg', weight: 2.1},
         
         {index: 27, name: '"Plantes et Magie", p.534', image: 'images/uniqueCollectables/herb_hint.jpg', description: `L'oeuvre d'une vie de l'herboriste Marg Erite trouvée dans la bibliothèque du chef du village.`, zoom: 'images/uniqueCollectables/herb_hint.jpg'},
         
@@ -108,8 +108,8 @@ L'ambre n'est pas le plus dense.`},
         //     weight: 1
         // },
         // {index: 15, name: 'Clés du laboratoire', image: 'images/inventory/potionKey.jpg', description: 'Les clés du laboratoire.', weight : 1, count: 1},
-        // {index: 21, name: 'Clés de chez le minéralogiste', image: 'images/inventory/potionKey.jpg', description: 'Les clés de chez le minéralogiste.', count: 1},
-        // {index: 22, name: "Clés de chez l'herboriste", image: 'images/inventory/potionKey.jpg', description: "Les clés de chez l'herboriste.", count: 1},
+        {index: 21, name: 'Clé du minéralogiste', image: 'images/inventory/potionKey.jpg', description: 'Les clés de chez le minéralogiste.', count: 1},
+        {index: 22, name: "Clé de l'herboriste", image: 'images/inventory/potionKey.jpg', description: "Les clés de chez l'herboriste.", count: 1},
         // {index: 3, name: 'Pierre orange', description: "Une pierre orange.", image: 'images/inventory/item_rock_orange.jpg', weight : 1, count: 1},
         // {index: 4, name: 'Pierre verte', description: "Une pierre verte.", image: 'images/inventory/item_rock_green.jpg', weight : 1, count: 1},
         // {index: 5, name: 'Pierre bleue', description: "Une pierre bleue.", image: 'images/inventory/item_rock_blue.jpg', weight : 1, count: 1},
@@ -130,6 +130,38 @@ L'ambre n'est pas le plus dense.`},
             zoomContainer.style.display = 'none';
         }
     });
+
+    addToInventory(items[6])
+    addToInventory(items[6])
+    addToInventory(items[6])
+    addToInventory(items[6])
+    addToInventory(items[9])
+    addToInventory(items[9])
+    addToInventory(items[9])
+    addToInventory(items[9])
+    addToInventory(items[9])
+    addToInventory(items[9])
+    addToInventory(items[15])
+    addToInventory(items[15])
+    addToInventory(items[15])
+    addToInventory(items[15])
+    addToInventory(items[15])
+    addToInventory(items[23])
+    addToInventory(items[23])
+    addToInventory(items[23])
+    addToInventory(items[23])
+    addToInventory(items[23])
+    addToInventory(items[26])
+    addToInventory(items[26])
+    addToInventory(items[26])
+    addToInventory(items[26])
+    addToInventory(items[20])
+    addToInventory(items[20])
+    addToInventory(items[20])
+    addToInventory(items[20])
+    addToInventory(items[20])
+    addToInventory(items[20])
+    addToInventory(items[20])
 
 
     // HAND
@@ -462,7 +494,7 @@ L'ambre n'est pas le plus dense.`},
     };
 
     function addToFountain(item) {
-        if(item.name == 'Potion ultime') {
+        if(item.name == 'Potion Ultima') {
             displayMessage(`Vous versez la potion dans la fontaine, qui s'illumine. Les ombres s'affaissent, et disparaissent.`)
             messageContainer.classList.add('dialogue');
             displayMessage(`Tu as réussi ! Les Ombres ne devraient pas revenir de sitôt, grâce à toi. Prends ce trophée en guise de remerciement.`);
@@ -961,7 +993,7 @@ Ce jour-là, ne laisse aucun villageois sans protection. Tu feras un merveilleux
                     Mercil > Sibilome
                     !(Mercil > Sibilome et Mercil > Estratan)
                     
-                    ....... < ....... < .......`
+                    ....... > ....... > .......`
                 },
                 {
                     id: 'chief-mushrooms',
@@ -1263,7 +1295,7 @@ function displayMessage(message) {
 
         const item = items.find(it => it.value == select);
         if(item){
-            addToInventory(item);
+            addToInventory(items[11]);
         }
 
     }
@@ -1318,7 +1350,7 @@ for (let i = 0; i <= 59; i++) {
 }
 
 hourSelect.addEventListener('change', (e) => {
-    if(e.target.value == 2 && minuteSelect.value == 11 && !hasFlowers) {
+    if(e.target.value == 2 && minuteSelect.value == 20 && !hasFlowers) {
         hasFlowers = true;
         forestMachine.style.display = 'none';
         changeScene('flowers')
@@ -1326,7 +1358,7 @@ hourSelect.addEventListener('change', (e) => {
 });
 
 minuteSelect.addEventListener('change', (e) => {
-    if(e.target.value == 11 && hourSelect.value == 2 && !hasFlowers) {
+    if(e.target.value == 20 && hourSelect.value == 2 && !hasFlowers) {
         hasFlowers = true;
         forestMachine.style.display = 'none';
         changeScene('flowers');
@@ -1473,8 +1505,8 @@ const potionIngredients = [
         weight: 0
     },
     {
-        name: 'Cristal bleu',
-        weight: 2
+        name: 'Cristal violet',
+        weight: 5.3
     },
     {
         name: 'Grand champignon',
