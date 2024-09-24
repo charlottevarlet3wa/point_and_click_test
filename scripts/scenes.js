@@ -94,7 +94,7 @@ export const scenes = {
       {
         id: "enemy-1",
         base: "enemy",
-        style: "right: 25px; top: 405px; cursor: cell;",
+        style: "right: 25px; top: 405px; width: 65px; cursor: cell;",
         hp: 3,
       },
       {
@@ -109,6 +109,24 @@ export const scenes = {
     background: "images/backgrounds/house.jpg",
     objects: [
       {
+        id: "enemy-1",
+        base: "enemy",
+        style: "left: 110px; top: 355px; width: 50px; cursor: cell;",
+        hp: 2,
+      },
+      {
+        id: "enemy-2",
+        base: "enemy",
+        style: "left: 90px; top: 380px; width: 40px; cursor: cell;",
+        hp: 1,
+      },
+      {
+        id: "enemy-3",
+        base: "enemy",
+        style: "left: 55px; top: 390px; width: 40px; cursor: cell;",
+        hp: 1,
+      },
+      {
         id: "left_arrow",
         base: "arrow_door",
         style: "width: 40px; height: 40px;top:3px; left: 3px;",
@@ -119,15 +137,15 @@ export const scenes = {
         base: "message",
         style:
           "width: 25px; height: 30px; top: 390px; left: 310px; transform:rotate(15deg); background-color: beige; opacity: 1; border-radius: 0; box-shadow: 1px 1px 1px grey;",
-        message: `Je suis partie récupérer des ingrédients pour ma nouvelle potion pousse-cheveux. N’oublie pas de nourrir le chat : 40g de croquettes par jour. Merci !`,
+        message: `(Feuille)
+        Je suis partie récupérer des ingrédients pour ma nouvelle potion pousse-cheveux. N’oublie pas de nourrir le chat : 40g de croquettes par jour. Merci !`,
       },
       {
         id: "message-2",
         base: "message",
         style: "width: 80px; height: 90px; top: 280px; left: 330px;",
-        message: `Notre réussite approche, mais le temps presse. Le Fléau revient tous les demi-siècles en moyenne. 
-                      
-                      Finalement, la plume de phénix était inutile.`,
+        message: `(Carnet)
+        Notre réussite approche, mais le temps presse. Le Fléau revient tous les demi-siècles en moyenne.`,
       },
       {
         id: "door_kitchen",
@@ -153,6 +171,18 @@ export const scenes = {
   potion: {
     background: "images/backgrounds/potionRoom.jpg",
     objects: [
+      {
+        id: "enemy-1",
+        base: "enemy",
+        style: "left: 530px; top: 200px; width: 32px; cursor: cell;",
+        hp: 1,
+      },
+      {
+        id: "enemy-2",
+        base: "enemy",
+        style: "left: 150px; top: 80px; width: 30px; cursor: cell;",
+        hp: 1,
+      },
       {
         id: "left_arrow",
         base: "arrow_door",
@@ -188,6 +218,18 @@ export const scenes = {
     background: "images/backgrounds/kitchen.jpg",
     objects: [
       {
+        id: "enemy-1",
+        base: "enemy",
+        style: "left: 20px; top: 490px; width: 65px; cursor: cell;",
+        hp: 3,
+      },
+      {
+        id: "enemy-2",
+        base: "enemy",
+        style: "left: 150px; top: 80px; width: 50px; cursor: cell;",
+        hp: 2,
+      },
+      {
         id: "balance_btn",
         base: "balance_btn",
         style: "top: 442px; left: 287px;display:none;",
@@ -211,6 +253,24 @@ export const scenes = {
     background: "images/backgrounds/forest_dark.jpg",
     objects: [
       {
+        id: "enemy-1",
+        base: "enemy",
+        style: "left: 280px; top: 350px; width: 35px; cursor: cell;",
+        hp: 1,
+      },
+      {
+        id: "enemy-2",
+        base: "enemy",
+        style: "left: 440px; top: 340px; width: 40px; cursor: cell;",
+        hp: 1,
+      },
+      {
+        id: "enemy-3",
+        base: "enemy",
+        style: "left: 500px; top: 510px; width: 65px; cursor: cell;",
+        hp: 3,
+      },
+      {
         id: "left_arrow",
         base: "arrow_door",
         style: "width: 40px; height: 40px; top:3px; left: 3px;",
@@ -221,6 +281,36 @@ export const scenes = {
   cave: {
     background: "images/backgrounds/cave.jpg",
     objects: [
+      {
+        id: "enemy-1",
+        base: "enemy",
+        style: "left: 280px; top: 520px;  width: 65px; cursor: cell;",
+        hp: 3,
+      },
+      {
+        id: "enemy-2",
+        base: "enemy",
+        style: "left: 160px; top: 310px; width: 35px; cursor: cell;",
+        hp: 1,
+      },
+      {
+        id: "enemy-3",
+        base: "enemy",
+        style: "left: 80px; top: 280px; width: 30px; cursor: cell;",
+        hp: 1,
+      },
+      {
+        id: "enemy-4",
+        base: "enemy",
+        style: "left: 250px; top: 350px; width: 40px; cursor: cell;",
+        hp: 2,
+      },
+      {
+        id: "enemy-5",
+        base: "enemy",
+        style: "left: 340px; top: 290px; width: 80px; cursor: cell;",
+        hp: 3,
+      },
       {
         id: "left_arrow",
         base: "arrow_door",
@@ -269,6 +359,18 @@ export const scenes = {
     background: "images/backgrounds/library.jpg",
     objects: [
       {
+        id: "enemy-1",
+        base: "enemy",
+        style: "left: 20px; top: 330px; width: 70px; cursor: cell;",
+        hp: 3,
+      },
+      {
+        id: "enemy-2",
+        base: "enemy",
+        style: "left: 235px; top: 480px; width: 50px; cursor: cell;",
+        hp: 2,
+      },
+      {
         id: "left_arrow",
         base: "arrow_door",
         style: "width: 40px; height: 40px; top:3px; left: 3px;",
@@ -278,7 +380,7 @@ export const scenes = {
         id: "book1",
         base: "message",
         style: "top: 180px; left: 210px; width: 50px; height: 100px;",
-        message: `LITTERATURE : Le conte de la sorcière d'argent, réadapté`,
+        message: `LITTERATURE : Le conte de la sorcière d'argent, une réécriture`,
       },
       {
         id: "book_hint1",
@@ -328,6 +430,24 @@ export const scenes = {
     background: "images/backgrounds/herborist.jpg",
     objects: [
       {
+        id: "enemy-1",
+        base: "enemy",
+        style: "left: 260px; top: 150px; width: 50px; cursor: cell;",
+        hp: 2,
+      },
+      {
+        id: "enemy-2",
+        base: "enemy",
+        style: "left: 90px; top: 240px; width: 40px; cursor: cell;",
+        hp: 1,
+      },
+      {
+        id: "enemy-3",
+        base: "enemy",
+        style: "left: 470px; top: 420px; width: 65px; cursor: cell;",
+        hp: 3,
+      },
+      {
         id: "left_arrow",
         base: "arrow_door",
         style: "width: 40px; height: 40px; top:3px; left: 3px;",
@@ -337,7 +457,8 @@ export const scenes = {
         id: "message-1",
         base: "message",
         style: "height: 80px; width: 60px; top: 220px;",
-        message: `J’ai donné une clé au chef, comme Hydr m’a donné la sienne. Il n’a pas été facile de le convaincre de financer mes voyages, et encore moins de lui avouer tout ce qui se tramait dans son dos. L’heure n’est plus à la concurrence entre les sciences, mais à la collaboration. Ensemble, on peut vaincre ce Fléau.`,
+        message: `(carnet)
+        J’ai donné une clé au chef, comme Hydr m’a donné la sienne. Il n’a pas été facile de le convaincre de financer mes voyages, et encore moins de lui avouer tout ce qui se tramait dans son dos. L’heure n’est plus à la concurrence entre les sciences, mais à la collaboration. Ensemble, nous pouvons vaincre ce Fléau.`,
       },
       {
         id: "calendar",
@@ -349,12 +470,13 @@ export const scenes = {
         id: "flower-book-1",
         base: "message",
         style: "width: 100px; height: 130px; top: 300px; left: 320px;",
-        message: `Jour 4126
+        message: `(Carnet)
+        Jour 4126
   
   Les Fleurs de Lune :
   
-  L'Astre-fleur et la Lune-d'ombre ne brillent qu'à l'écart des regards. 
-  Durée de l’éclat après un regard : 1 minute.
+  L'Astre-fleur et la Lune-d'ombre ne brillent qu'à l'abri des regards. 
+  Durée de l’éclat suite à un regard : 1 minute.
   
   La fleur de la potion, plus délicate encore, brille peut-être en secret.`,
       },
@@ -362,11 +484,12 @@ export const scenes = {
         id: "flower-book-2",
         base: "message",
         style: "width: 150px; height: 130px; top: 80px; left: 340px;",
-        message: `Jour 4134
+        message: `(Carnet)
+        Jour 4134
   
   Les Températures optimales
   
-  Il semble que certaines plantes possèdent des propriétés si subtiles qu'elles ne se manifestent que dans des conditions rigoureusement précises. La Sélénite pourpre, par exemple, ne révèle ses vertus curatives qu'à une température exacte de 17 degrés.
+  Il semble que certaines plantes possèdent des propriétés si subtiles qu'elles ne se manifestent que dans des conditions précises. La Sélénite pourpre, par exemple, ne révèle ses vertus curatives qu'à une température exacte de 17 degrés.
   
   J’ai enfin fini Meteor, un bijou de technologie qui prédit les températures à la minute près. D’après mes calculs, une plante telle que la Fleur-Lumineuse peut apparaître entre 2h et 2h30, là où les températures sont les plus froides dans la Forêt hantée. 
                       `,
@@ -385,6 +508,24 @@ export const scenes = {
     background: "images/backgrounds/mineralogist.jpg",
     objects: [
       {
+        id: "enemy-1",
+        base: "enemy",
+        style: "left: 20px; top: 250px; width: 50px; cursor: cell;",
+        hp: 2,
+      },
+      {
+        id: "enemy-2",
+        base: "enemy",
+        style: "left: 200px; top: 420px; width: 40px; cursor: cell;",
+        hp: 1,
+      },
+      {
+        id: "enemy-3",
+        base: "enemy",
+        style: "left: 280px; top: 400px; width: 35px; cursor: cell;",
+        hp: 1,
+      },
+      {
         id: "left_arrow",
         base: "arrow_door",
         style: "width: 40px; height: 40px; top:3px; left: 3px;",
@@ -394,7 +535,7 @@ export const scenes = {
         id: "message-1",
         base: "message",
         style: "height: 100px; width: 70px; left: 260px; top: 200px;",
-        message: `Histoire du Fléau, p.147
+        message: `(Histoire du Fléau, p.147)
                       
                       Après des siècles de peur, la pierre salvique représentait un nouvel espoir. Tout le village s’entraida pour construire un gigantesque abri. Une philosophie nouvelle émergeait : pourquoi combattre quand on pouvait se cacher le temps que les ombres s’amenuisent ? L’épidémie était devenue une maladie passagère.`,
       },
@@ -422,9 +563,10 @@ export const scenes = {
         id: "stone-book-3",
         base: "message",
         style: "width: 80px; height: 110px; right: 50px; top: 200px;",
-        message: `Les Cristaux
+        message: `(Carnet)
+        Les Cristaux
   
-  Les cristaux surpassent les pierres, beaucoup plus rares et dotées d'une quantité de magie bien plus élevée.
+  Dotés d'une quantité de magie bien plus élevée, les cristaux surpassent les pierres. Ils sont aussi beaucoup plus rares.
   
   Mon classement repose sur le type de magie que chaque élément renferme :
   Bleu : l'Air, la transformation.
@@ -436,7 +578,8 @@ export const scenes = {
         id: "crystal-hint",
         base: "message",
         style: "width: 190px; height: 110px; left: 150px; top: 470px;",
-        message: `Coffre de cristaux :
+        message: `(Feuille sous le tapis)
+        Coffre de cristaux :
   
    1. Si la mmm (masse molaire magique) du Solium est de 18.9 , alors l’Altidée n’est pas la clé.
   
@@ -472,7 +615,8 @@ export const scenes = {
         id: "message-1",
         base: "message",
         style: "width: 70px; top: 350px; left: 100px;",
-        message: `AMANITES!
+        message: `(Note écrite avec précipitation)
+        AMANITES!
   
   75g: -100
   50g: -67
@@ -482,8 +626,9 @@ export const scenes = {
         id: "message-2",
         base: "message",
         style: "height: 100px; width: 30px; top: 360px; left: 185px;",
-        message: `Mon fils, tu as fait preuve de bravoure aujourd’hui. Mais il n’est pas encore temps pour toi d’être brave. C’est mon devoir de rester dehors, et ton devoir de te cacher. Un jour, c’est toi qui devras rester. 
-  Ce jour-là, ne laisse aucun villageois sans protection. Tu feras un merveilleux chef, j’en suis certain.`,
+        message: `(Papier abîmé)
+        Mon fils, tu as fait preuve de bravoure aujourd’hui. Mais il n’est pas encore temps pour toi d’être brave. Mon devoir est de rester dehors, le tien est de te cacher. Un jour, c’est toi qui devras rester. 
+        Ce jour-là, ne laisse aucun villageois sans protection. Tu feras un superbe chef, j’en suis certain.`,
       },
       {
         id: "herborist-chest",
@@ -520,6 +665,24 @@ export const scenes = {
   flowers: {
     background: "images/backgrounds/forest_light.jpg",
     objects: [
+      {
+        id: "enemy-1",
+        base: "enemy",
+        style: "left: 280px; top: 350px; width: 35px; cursor: cell;",
+        hp: 1,
+      },
+      {
+        id: "enemy-2",
+        base: "enemy",
+        style: "left: 440px; top: 340px; width: 40px; cursor: cell;",
+        hp: 1,
+      },
+      {
+        id: "enemy-3",
+        base: "enemy",
+        style: "left: 500px; top: 510px; width: 65px; cursor: cell;",
+        hp: 3,
+      },
       {
         id: "left_arrow",
         base: "arrow_door",
