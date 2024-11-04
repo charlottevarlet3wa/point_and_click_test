@@ -1071,8 +1071,8 @@ changeScene("village");
 // changeScene("flowers");
 // changeScene("mineralogist");
 
-// displayMessage(`CHEF DU VILLAGE
-// Où étais-tu passé ? Les autres se sont déjà enfermés dans l’abri. Maintenant, tu vas devoir te débrouiller seul. Je vais voir si d’autres villageois sont restés dehors. N’oublie pas, les Ombres n’aiment pas les champignons. J’en ai plein ma maison. Voilà ma clé, tu seras plus en sécurité.`);
+displayMessage(`CHEF DU VILLAGE
+Où étais-tu passé ? Les autres se sont déjà enfermés dans l’abri. Maintenant, tu vas devoir te débrouiller seul. Je vais voir si d’autres villageois sont restés dehors. N’oublie pas, les Ombres n’aiment pas les champignons. J’en ai plein ma maison. Voilà ma clé, tu seras plus en sécurité.`);
 addToInventory(items[30]);
 
 let isTuto = true;
