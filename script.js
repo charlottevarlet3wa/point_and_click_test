@@ -55,47 +55,6 @@ inventoryIcon.addEventListener("click", () => {
   }
 });
 
-addToInventory(items[3]);
-addToInventory(items[4]);
-addToInventory(items[5]);
-addToInventory(items[6]);
-addToInventory(items[6]);
-addToInventory(items[6]);
-addToInventory(items[6]);
-addToInventory(items[9]);
-addToInventory(items[9]);
-addToInventory(items[9]);
-addToInventory(items[9]);
-addToInventory(items[9]);
-addToInventory(items[9]);
-addToInventory(items[15]);
-addToInventory(items[15]);
-addToInventory(items[15]);
-addToInventory(items[15]);
-addToInventory(items[15]);
-addToInventory(items[23]);
-addToInventory(items[23]);
-addToInventory(items[23]);
-addToInventory(items[23]);
-addToInventory(items[23]);
-addToInventory(items[24]);
-addToInventory(items[24]);
-addToInventory(items[24]);
-addToInventory(items[24]);
-addToInventory(items[24]);
-addToInventory(items[24]);
-addToInventory(items[26]);
-addToInventory(items[26]);
-addToInventory(items[26]);
-addToInventory(items[26]);
-addToInventory(items[20]);
-addToInventory(items[20]);
-addToInventory(items[20]);
-addToInventory(items[20]);
-addToInventory(items[20]);
-addToInventory(items[20]);
-addToInventory(items[20]);
-
 // HAND
 const hand = Array(6).fill(null);
 const handItems = document.querySelectorAll(".hand-item");
